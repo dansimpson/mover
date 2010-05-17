@@ -1,7 +1,7 @@
 
 module Mover
 
-    class Action #lawsuit
+    class Action
     
         attr_accessor :timer, :callback, :busy
     
@@ -30,12 +30,12 @@ module Mover
         
             return if busy
             
-            begin
+            #begin
                 busy = true
                 instance_eval &callback
-            rescue Exception => ex
-                Log.error ex
-            end
+            #rescue Exception => ex
+            #    Log.error ex
+            #end
             
             busy = false
         end

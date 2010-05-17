@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'fileutils'
+require 'rubygems'
+require 'mover'
+
+OptionParser.new do |opts|
+
+  opts.banner = "Usage: mover [options] path"
+
+  opts.on( 'new', 'Initialize a new mover script' ) do
+  end
+
+  opts.on( 'register', 'Register a mover daemon with initctl' ) do
+  end
+  
+  opts.on( 'start', 'Start a mover daemon' ) do
+  end
+  
+  opts.on( 'stop', 'Stop a mover daemon' ) do
+  end
+  
+  opts.on( 'help', 'Display this screen' ) do
+    puts opts
+    exit
+  end
+
+  if ARGV.length < 1
+    puts opts
+    exit
+  end
+
+end.parse!
+

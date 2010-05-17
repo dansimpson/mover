@@ -1,54 +1,46 @@
-
 module Mover
-
     class Archiver
     
-        Modules = {
-            "filesystem" => Archivers::FileSystem
-        }
+        attr_accessor :source, :destination
     
-        attr_accessor :path, :opts
-    
-        def initialize path, opts={}
-            @path = path
-            @opts = opts
+        def initialize source, destination
+            @source       = Resource.parse source
+            @destination  = Resource.parse destination
+            @archive_name = archive_name
         end
         
         def archive
         
-            unless File.exists?(path)
-                return Log.error "#{path} does not exist"
+            unless source
+                return Log.error "Invalid syntax for resource #{source}"
             end
             
-            unless opts[:to]
-                return Log.error "Archive destination not defined"
+            unless destination
+                return Log.error "Invalid syntax for resource #{destination}"
             end
- 
-            unless opts[:to] =~ /^(\w+):(.+)$/
-                return Log.error "Invalid destination #{opts[:to]} ex: directory:/path/to/dir"
+
+
+            if source.medium.respond_to?(:archive)
+
+                tar = Resource.new(@source.medium, archname)
+                
+                system "tar czvf #{archname} #{source.path}"
+                destination.istream("/home/dan/moo.tgz") << tar.ostream
+                system "rm #{archname}"
+                
+                
+                
+            else
+                Log.error "You cannot archive a container or object for medium #{source.medium}"
             end
-            
-            type = Regexp.last_match(1)
-            data = Regexp.last_match(2)
-            
-            unless Modules.has_key?(type)
-                return Log.error "Invalid archiver type #{type}"
-            end
-            
-            extend Modules[type]
-      
-            begin
-                process data
-            rescue
-                Log.error "Process method not defined by #{Modules[type]}"
-            end
+
         end
         
-        private
+        protected
         
         def archive_name
-            "#{File.basename(path)}.#{Time.now.strftime("%Y%j%H%M%S")}.tgz"
+            "#{File.basename(source.path)}.#{Time.now.strftime("%Y%j%H%M%S")}.tgz"
         end
+        
     end
-
 end
