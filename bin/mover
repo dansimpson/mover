@@ -3,22 +3,22 @@
 require 'optparse'
 require 'fileutils'
 require 'rubygems'
-require 'mover'
+require 'cloud_sync'
 
 OptionParser.new do |opts|
 
-  opts.banner = "Usage: mover [options] path"
+  opts.banner = "Usage: cloud_sync [options] path"
 
-  opts.on( 'new', 'Initialize a new mover script' ) do
+  opts.on( 'new', 'Initialize a new cloud_sync script' ) do
   end
 
-  opts.on( 'register', 'Register a mover daemon with initctl' ) do
+  opts.on( 'register', 'Register a cloud_sync daemon with initctl' ) do
   end
   
-  opts.on( 'start', 'Start a mover daemon' ) do
+  opts.on( 'start', 'Start a cloud_sync daemon' ) do
   end
   
-  opts.on( 'stop', 'Stop a mover daemon' ) do
+  opts.on( 'stop', 'Stop a cloud_sync daemon' ) do
   end
   
   opts.on( 'help', 'Display this screen' ) do

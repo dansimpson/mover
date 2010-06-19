@@ -2,7 +2,7 @@
 
 ##The Idea...
 
-    Mover.schedule do
+    CloudSync.schedule do
         every 12.hours do
            archive "/home/user/documents", :to => "filesystem:/mnt/external/snapshots"
         end
